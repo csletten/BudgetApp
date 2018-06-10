@@ -8,17 +8,40 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var tableView: UITableView!
+    
+    let elements = ["horse", "cat", "dog"]
+    
     override func viewDidLoad() {
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+        return elements.count
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell") as! customTableViewCell
+        
+        cell.cellView.layer.cornerRadius = cell.cellView.frame.height / 2
+        
+        cell.animalLabel.text = elements[indexPath.row]
+        cell.animalImage.image = UIImage(named: elements[indexPath.row])
+        
+        cell.animalImage.layer.cornerRadius = cell.cellView.frame.height / 2
+        
+        return cell
+    }
+
 
 
 }
